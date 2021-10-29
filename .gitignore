@@ -1,0 +1,9 @@
+.bsp
+*.swp
+.idea
+target
+project/boot
+project/plugins/project
+*.class
+
+.DS_Store
