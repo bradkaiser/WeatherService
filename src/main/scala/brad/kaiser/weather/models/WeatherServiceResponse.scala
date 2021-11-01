@@ -8,7 +8,8 @@ case class WeatherServiceResponse(temp: String,
                                   alerts: Seq[Alert])
 
 object WeatherServiceResponse {
-  def apply(ow: OpenWeatherResponse): WeatherServiceResponse = WeatherServiceResponse(temp = parseTemp(ow.current.temp),
+  def apply(ow: OpenWeatherResponse): WeatherServiceResponse = WeatherServiceResponse(
+    temp = parseTemp(ow.current.temp),
     description = ow.current.weather.head,
     alerts = ow.alerts.getOrElse(Seq.empty))
 
