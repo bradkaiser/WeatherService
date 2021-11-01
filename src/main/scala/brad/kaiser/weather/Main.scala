@@ -16,7 +16,7 @@ object Main extends IOApp {
   val log: Logger = LoggerFactory.getLogger(getClass)
 
   def run(args: List[String]): IO[ExitCode] = {
-    val config = getConfigOrDie()
+    val config = mkConfigOrDie()
 
     val server = for {
       client <- BlazeClientBuilder[IO].resource
@@ -28,7 +28,7 @@ object Main extends IOApp {
     server.use(_ => IO.never).as(ExitCode.Success)
   }
 
-  def getConfigOrDie(): Config = ConfigSource.default.load[Config] match {
+  def mkConfigOrDie(): Config = ConfigSource.default.load[Config] match {
     case Right(config) => config
     case Left(errors) => throw new IllegalArgumentException(errors.prettyPrint())
   }

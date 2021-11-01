@@ -1,15 +1,12 @@
 package brad.kaiser.weather.models
 
 import org.scalatest.flatspec.AnyFlatSpec
-import io.circe._
 import io.circe.generic.auto._
-import io.circe.syntax._
-import org.http4s.circe.CirceEntityDecoder._
-import io.circe._, io.circe.generic.auto._, io.circe.parser._, io.circe.syntax._
+import io.circe.parser._
+import org.scalatest.EitherValues
+import org.scalatest.matchers.should.Matchers
 
-
-
-class OpenWeatherResponseSpec extends AnyFlatSpec {
+class OpenWeatherResponseSpec extends AnyFlatSpec with Matchers with EitherValues {
 
   "OpenWeatherResponse" should "be parseable from open weather json" in {
     val json = """{
@@ -43,13 +40,11 @@ class OpenWeatherResponseSpec extends AnyFlatSpec {
                  |  }
                  |}""".stripMargin
 
-    val result = decode[OpenWeatherResponse](json)
-    println(result)
-
-
-    // TODO BK finish test
-
-
+    val result = decode[OpenWeatherResponse](json).value
+    result.current.temp shouldBe 263.68
+    result.current.weather.size shouldBe 1
+    result.current.weather.head.main shouldBe "Clear"
+    result.current.weather.head.description shouldBe "clear sky"
+    result.alerts shouldBe None
   }
-
 }
